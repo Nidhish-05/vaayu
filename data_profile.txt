@@ -1,0 +1,49 @@
+--- DATASET PROFILING ---
+
+File: Real_Time_Air_Quality_Index.csv
+Shape: (3414, 11)
+Columns: ['country', 'state', 'city', 'station', 'last_update', 'latitude', 'longitude', 'pollutant_id', 'pollutant_min', 'pollutant_max', 'pollutant_avg']
+Sample:
+  country           state        city                          station       last_update   latitude  longitude pollutant_id  pollutant_min  pollutant_max  pollutant_avg
+0   India  Andhra_Pradesh    Tirupati  Vaikuntapuram, Tirupati - APPCB  20-03-2026 16:00  13.615387  79.409230        OZONE           15.0           32.0           24.0
+1   India  Andhra_Pradesh  Vijayawada    HB Colony, Vijayawada - APPCB  20-03-2026 16:00  16.536107  80.594233        PM2.5           47.0          184.0           65.0
+
+File: RS_Session_255_AU_2113_1.csv
+Shape: (36, 4)
+Columns: ['Sl. No.', 'State/UT', 'AWS', 'ARG']
+Sample:
+   Sl. No.                    State/UT  AWS   ARG
+0        1  Andaman and Nicobar Island    2   NaN
+1        2              Andhra Pradesh   32  61.0
+
+File: RS_Session_257_AU_2103_1.csv
+Shape: (37, 5)
+Columns: ['Sl. No.', 'State/UT', 'Automatic Weather Station (AWS)', 'Automatic Rain Gauge (ARG)', 'AGRO AWS']
+Sample:
+  Sl. No.             State/UT  Automatic Weather Station (AWS)  Automatic Rain Gauge (ARG)  AGRO AWS
+0       1  Andaman and Nicobar                                1                         NaN       NaN
+1       2       Andhra Pradesh                               24                        61.0       9.0
+
+File: RS_Session_258_AU_183_1.csv
+Shape: (37, 5)
+Columns: ['S.No.', 'State', 'AWS', 'Agro AWS', 'ARG']
+Sample:
+  S.No.                State  AWS  Agro AWS   ARG
+0     1  Andaman and Nicobar    1       NaN   NaN
+1     2       Andhra Pradesh   39       9.0  61.0
+
+File: TEMP_ANNUAL_SEASONAL_MEAN.csv
+Shape: (123, 6)
+Columns: ['YEAR', 'ANNUAL', 'JAN-FEB', 'MAR-MAY', 'JUN-SEP', 'OCT-DEC']
+Sample:
+     YEAR ANNUAL JAN-FEB MAR-MAY JUN-SEP OCT-DEC
+0  1901.0  25.42   20.11   27.64   28.16    23.1
+1  1902.0  25.42   20.88   27.96   27.98   22.51
+
+File: Vehicle_Emission_Data.csv
+Shape: (10, 7)
+Columns: ['Sl. No.', 'Type of Vehicle', 'PM (g/km)', 'NOx (g/km)', 'CO (g/km)', 'HC (g/km)', 'CO2 (g/km)']
+Sample:
+   Sl. No.                           Type of Vehicle  PM (g/km)  NOx (g/km)  CO (g/km)  HC (g/km)  CO2 (g/km)
+0        1  Passenger Cars  <1600 CC (Petrol) BS III     0.0010      0.0395     0.9838     0.0948    138.9405
+1        2  Passenger Cars  <1600 CC (Diesel) BS III     0.0213      0.5483     0.3837     0.0753    137.6147
