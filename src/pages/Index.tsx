@@ -9,6 +9,7 @@ import CostBarChart from '@/components/graphics/CostBarChart';
 import IndiaPhaseMap from '@/components/graphics/IndiaPhaseMap';
 import PremiumBackground from '@/components/graphics/PremiumBackground';
 import { AIDashboard } from '@/components/AIDashboard';
+import InteractiveAQIMap from '@/components/InteractiveAQIMap';
 import { useInView } from '@/hooks/useInView';
 import { useCountUp } from '@/hooks/useCountUp';
 import { useState, useEffect, useRef } from 'react';
@@ -181,6 +182,20 @@ export default function Index() {
               </p>
               <cite className="block mt-6 text-sm font-mono text-muted-foreground tracking-widest uppercase not-italic">— EGUsphere / Copernicus 2025</cite>
             </blockquote>
+          </ScrollReveal>
+        </section>
+
+        {/* ═══ LIVE MONITORING MAP ═══ */}
+        <section className="py-28 px-4 sm:px-6 max-w-7xl mx-auto">
+          <ScrollReveal>
+            <SectionHeader label="LIVE MONITORING" />
+            <h2 className="text-4xl sm:text-5xl md:text-6xl font-heading font-bold mt-6 tracking-tight gradient-text">Ward-Level AQI Map</h2>
+            <p className="text-lg text-secondary-foreground/80 mt-4 max-w-2xl font-light">Interactive real-time pollution monitoring across 20 Delhi wards. Click any ward to inspect AQI levels and pollution sources.</p>
+          </ScrollReveal>
+          <ScrollReveal delay={200}>
+            <div className="mt-16 neon-card rounded-[2.5rem] p-2 sm:p-4 pulse-glow overflow-hidden">
+              <InteractiveAQIMap />
+            </div>
           </ScrollReveal>
         </section>
 

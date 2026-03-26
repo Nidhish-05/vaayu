@@ -3,30 +3,33 @@ export interface WardData {
   aqi: number;
   source: string;
   sourceIcon: string;
+  lat: number;
+  lng: number;
 }
 
 export const WARD_DATA: WardData[] = [
-  { name: "Anand Vihar", aqi: 341, source: "Construction", sourceIcon: "🏗️" },
-  { name: "Rohini Sector 16", aqi: 189, source: "Vehicular", sourceIcon: "🚗" },
-  { name: "Okhla Phase 2", aqi: 267, source: "Industrial", sourceIcon: "🏭" },
-  { name: "Chandni Chowk", aqi: 312, source: "Biomass", sourceIcon: "🔥" },
-  { name: "R.K. Puram", aqi: 98, source: "Clean", sourceIcon: "🌿" },
-  { name: "Mustafabad", aqi: 287, source: "Biomass", sourceIcon: "🔥" },
-  { name: "Karawal Nagar", aqi: 224, source: "Stubble", sourceIcon: "🌾" },
-  { name: "Dwarka Sector 10", aqi: 156, source: "Vehicular", sourceIcon: "🚗" },
-  { name: "Shahdara", aqi: 298, source: "Industrial", sourceIcon: "🏭" },
-  { name: "Wazirpur", aqi: 334, source: "Industrial", sourceIcon: "🏭" },
-  { name: "Sarita Vihar", aqi: 178, source: "Vehicular", sourceIcon: "🚗" },
-  { name: "Tughlakabad", aqi: 241, source: "Construction", sourceIcon: "🏗️" },
-  { name: "Burari", aqi: 203, source: "Biomass", sourceIcon: "🔥" },
-  { name: "Mehrauli", aqi: 134, source: "Vehicular", sourceIcon: "🚗" },
-  { name: "Bawana", aqi: 378, source: "Industrial", sourceIcon: "🏭" },
-  { name: "Narela", aqi: 289, source: "Construction", sourceIcon: "🏗️" },
-  { name: "Mundka", aqi: 311, source: "Industrial", sourceIcon: "🏭" },
-  { name: "Vasant Kunj", aqi: 88, source: "Clean", sourceIcon: "🌿" },
-  { name: "Lajpat Nagar", aqi: 167, source: "Vehicular", sourceIcon: "🚗" },
-  { name: "Patel Nagar", aqi: 219, source: "Vehicular", sourceIcon: "🚗" },
+  { name: "Anand Vihar",       aqi: 341, source: "Construction", sourceIcon: "🏗️", lat: 28.6469, lng: 77.3164 },
+  { name: "Rohini Sector 16",  aqi: 189, source: "Vehicular",    sourceIcon: "🚗", lat: 28.7379, lng: 77.1157 },
+  { name: "Okhla Phase 2",     aqi: 267, source: "Industrial",   sourceIcon: "🏭", lat: 28.5308, lng: 77.2710 },
+  { name: "Chandni Chowk",     aqi: 312, source: "Biomass",      sourceIcon: "🔥", lat: 28.6506, lng: 77.2301 },
+  { name: "R.K. Puram",        aqi: 98,  source: "Clean",        sourceIcon: "🌿", lat: 28.5667, lng: 77.1833 },
+  { name: "Mustafabad",        aqi: 287, source: "Biomass",      sourceIcon: "🔥", lat: 28.6950, lng: 77.2625 },
+  { name: "Karawal Nagar",     aqi: 224, source: "Stubble",      sourceIcon: "🌾", lat: 28.7237, lng: 77.2617 },
+  { name: "Dwarka Sector 10",  aqi: 156, source: "Vehicular",    sourceIcon: "🚗", lat: 28.5823, lng: 77.0567 },
+  { name: "Shahdara",          aqi: 298, source: "Industrial",   sourceIcon: "🏭", lat: 28.6742, lng: 77.2893 },
+  { name: "Wazirpur",          aqi: 334, source: "Industrial",   sourceIcon: "🏭", lat: 28.6993, lng: 77.1652 },
+  { name: "Sarita Vihar",      aqi: 178, source: "Vehicular",    sourceIcon: "🚗", lat: 28.5277, lng: 77.2899 },
+  { name: "Tughlakabad",       aqi: 241, source: "Construction", sourceIcon: "🏗️", lat: 28.5139, lng: 77.2543 },
+  { name: "Burari",            aqi: 203, source: "Biomass",      sourceIcon: "🔥", lat: 28.7575, lng: 77.2028 },
+  { name: "Mehrauli",          aqi: 134, source: "Vehicular",    sourceIcon: "🚗", lat: 28.5246, lng: 77.1855 },
+  { name: "Bawana",            aqi: 378, source: "Industrial",   sourceIcon: "🏭", lat: 28.7762, lng: 77.0510 },
+  { name: "Narela",            aqi: 289, source: "Construction", sourceIcon: "🏗️", lat: 28.8525, lng: 77.0926 },
+  { name: "Mundka",            aqi: 311, source: "Industrial",   sourceIcon: "🏭", lat: 28.6817, lng: 77.0214 },
+  { name: "Vasant Kunj",       aqi: 88,  source: "Clean",        sourceIcon: "🌿", lat: 28.5194, lng: 77.1548 },
+  { name: "Lajpat Nagar",      aqi: 167, source: "Vehicular",    sourceIcon: "🚗", lat: 28.5700, lng: 77.2400 },
+  { name: "Patel Nagar",       aqi: 219, source: "Vehicular",    sourceIcon: "🚗", lat: 28.6518, lng: 77.1641 },
 ];
+
 
 export function getAqiColor(aqi: number): string {
   if (aqi < 100) return '#39FF14'; // Toxic Green
