@@ -15,6 +15,16 @@ export interface SensorData {
   fire_points_100km: number;
 }
 
+export interface MitigationData {
+  severity_tier: number;
+  tier_label: string;
+  tier_color: string;
+  health_advisories: string[];
+  alert_message: string;
+  ward_contacts_count: number;
+  total_registry_size: number;
+}
+
 export interface MLInferenceResult {
   ward_id: string;
   input_pm25: number;
@@ -30,6 +40,23 @@ export interface MLInferenceResult {
     is_hotspot: boolean;
     downstream_warning: boolean;
   };
+  mitigation: MitigationData;
+}
+
+export interface AlertDispatchResult {
+  status: string;
+  tier: { tier: number; label: string; color: string };
+  alert_message: string;
+  health_advisories: string[];
+  sms_results: Array<{
+    to: string;
+    recipient_name: string;
+    message: string;
+    status: string;
+    timestamp: string;
+    provider: string;
+  }>;
+  total_sent: number;
 }
 
 const API_URL = "http://localhost:8000";
@@ -54,3 +81,18 @@ export async function runMLInference(data: SensorData): Promise<MLInferenceResul
     throw error;
   }
 }
+
+export async function dispatchAlerts(ward_id: string, pm25: number, source: string): Promise<AlertDispatchResult> {
+  const response = await fetch(`${API_URL}/alerts/dispatch`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ ward_id, pm25, source }),
+  });
+
+  if (!response.ok) {
+    throw new Error(`Alert dispatch failed: ${response.status}`);
+  }
+
+  return await response.json();
+}
+

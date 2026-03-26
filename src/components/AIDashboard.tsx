@@ -7,8 +7,8 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { default as RechartsPieChart } from 'recharts/lib/chart/PieChart';
 import { default as RechartsPie } from 'recharts/lib/polar/Pie';
 import { Cell, ResponsiveContainer, Tooltip, Legend } from 'recharts';
-import { BrainCircuit, Wind, AlertTriangle, CheckCircle2 } from 'lucide-react';
-import { runMLInference, SensorData, MLInferenceResult } from '@/lib/ml_api';
+import { BrainCircuit, Wind, AlertTriangle, CheckCircle2, Shield, Phone, HeartPulse, Send } from 'lucide-react';
+import { runMLInference, dispatchAlerts, SensorData, MLInferenceResult, AlertDispatchResult } from '@/lib/ml_api';
 import { useToast } from "@/components/ui/use-toast";
 
 // Recharts imports need to be direct or destructured properly to avoid vite bugs
@@ -18,6 +18,8 @@ export function AIDashboard() {
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<MLInferenceResult | null>(null);
+  const [alertDispatching, setAlertDispatching] = useState(false);
+  const [dispatchResult, setDispatchResult] = useState<AlertDispatchResult | null>(null);
 
   // Default sensor simulation data (typical Delhi winter day)
   const [sensors, setSensors] = useState<SensorData>({
@@ -273,6 +275,102 @@ export function AIDashboard() {
                 </div>
               )}
 
+            </div>
+
+            {/* ═══ MITIGATION & HEALTH ADVISORY (Full Width) ═══ */}
+            <div className="md:col-span-2 space-y-6">
+              {/* Severity Tier Banner */}
+              <div className="neon-card rounded-[2rem] p-8">
+                <div className="flex items-center gap-4 mb-6">
+                  <Shield className="h-6 w-6" style={{ color: result.mitigation?.tier_color || '#fff' }} />
+                  <h3 className="font-heading font-bold text-xl text-white tracking-tight">Automated Mitigation Engine</h3>
+                  <span 
+                    className="ml-auto text-sm font-mono font-bold px-4 py-2 rounded-full uppercase tracking-widest"
+                    style={{ 
+                      backgroundColor: `${result.mitigation?.tier_color}15`,
+                      color: result.mitigation?.tier_color,
+                      border: `1px solid ${result.mitigation?.tier_color}40`,
+                      boxShadow: `0 0 15px ${result.mitigation?.tier_color}20`
+                    }}
+                  >
+                    Tier {result.mitigation?.severity_tier} — {result.mitigation?.tier_label}
+                  </span>
+                </div>
+
+                {/* Health Advisories */}
+                <div className="mb-8">
+                  <div className="flex items-center gap-2 mb-4">
+                    <HeartPulse className="h-5 w-5 text-[#FF3CAC]" />
+                    <h4 className="text-base font-heading font-bold text-white uppercase tracking-widest">Health Advisories</h4>
+                  </div>
+                  <div className="space-y-2 max-h-[300px] overflow-y-auto pr-2" style={{ scrollbarWidth: 'thin', scrollbarColor: 'rgba(122,92,255,0.3) transparent' }}>
+                    {result.mitigation?.health_advisories?.map((advisory, idx) => (
+                      <div key={idx} className="flex items-start gap-3 p-3 rounded-xl bg-white/[0.03] border border-white/5">
+                        <span className="text-[10px] font-mono font-bold px-2 py-0.5 mt-0.5 rounded bg-white/5 text-muted-foreground shrink-0">{String(idx + 1).padStart(2, '0')}</span>
+                        <p className="text-sm text-secondary-foreground/90 leading-relaxed">{advisory}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* SMS Alert Preview + Dispatch */}
+                <div className="border-t border-white/5 pt-6">
+                  <div className="flex items-center gap-2 mb-4">
+                    <Phone className="h-5 w-5 text-[#00E5FF]" />
+                    <h4 className="text-base font-heading font-bold text-white uppercase tracking-widest">SMS Alert Preview</h4>
+                  </div>
+                  <div className="p-5 rounded-xl bg-black/30 border border-white/5 font-mono text-sm text-[#00E5FF]/90 whitespace-pre-line leading-relaxed mb-6">
+                    {result.mitigation?.alert_message}
+                  </div>
+
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                    <button
+                      className="btn-neon px-8 py-4 rounded-xl font-heading font-bold text-sm tracking-widest uppercase flex items-center gap-2"
+                      disabled={alertDispatching}
+                      onClick={async () => {
+                        setAlertDispatching(true);
+                        try {
+                          const res = await dispatchAlerts(sensors.ward_id, sensors.pm25, result.attribution.primary_source);
+                          setDispatchResult(res);
+                          toast({
+                            title: `📱 Alerts Dispatched!`,
+                            description: `${res.total_sent} SMS alerts sent to team members.`,
+                          });
+                        } catch (err) {
+                          toast({ title: "Dispatch Failed", description: "Backend unreachable.", variant: "destructive" });
+                        } finally {
+                          setAlertDispatching(false);
+                        }
+                      }}
+                    >
+                      <Send className="h-4 w-4" />
+                      {alertDispatching ? "Dispatching..." : "Dispatch Emergency Alert"}
+                    </button>
+
+                    <p className="text-xs font-mono text-muted-foreground">
+                      Registry: <strong className="text-white">{result.mitigation?.total_registry_size || 6}</strong> contacts
+                      {dispatchResult && (
+                        <span className="ml-3 text-[#39FF14]">✓ {dispatchResult.total_sent} sent at {new Date(dispatchResult.sms_results?.[0]?.timestamp || '').toLocaleTimeString()}</span>
+                      )}
+                    </p>
+                  </div>
+
+                  {/* Dispatch Result Log */}
+                  {dispatchResult && (
+                    <div className="mt-6 space-y-2">
+                      <p className="text-xs font-mono text-muted-foreground uppercase tracking-widest mb-3">Dispatch Log</p>
+                      {dispatchResult.sms_results.map((sms, idx) => (
+                        <div key={idx} className="flex items-center gap-3 p-3 rounded-xl bg-[#39FF14]/5 border border-[#39FF14]/10">
+                          <span className="w-2 h-2 rounded-full bg-[#39FF14] shadow-[0_0_6px_rgba(57,255,20,0.5)]" />
+                          <span className="text-sm text-white font-medium">{sms.recipient_name}</span>
+                          <span className="text-xs font-mono text-muted-foreground">{sms.to}</span>
+                          <span className="ml-auto text-xs font-mono text-[#39FF14] font-bold">{sms.status}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
             </div>
           </div>
         )}
