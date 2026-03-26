@@ -23,20 +23,20 @@ export default function Navbar() {
     <nav
       className="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
       style={{
-        background: scrolled ? 'rgba(13,13,20,0.85)' : 'transparent',
-        backdropFilter: scrolled ? 'blur(12px)' : 'none',
-        borderBottom: scrolled ? '1px solid rgba(196,131,58,0.08)' : 'none',
+        background: scrolled ? 'rgba(8, 8, 16, 0.7)' : 'transparent',
+        backdropFilter: scrolled ? 'blur(16px)' : 'none',
+        borderBottom: scrolled ? '1px solid rgba(0, 229, 255, 0.1)' : 'none',
       }}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between h-14">
         <a href="#" className="flex items-center gap-2">
-          {/* Air wave icon */}
+          {/* Air wave icon - Neon style */}
           <svg width="20" height="16" viewBox="0 0 20 16" fill="none">
-            <path d="M2 10C4 6 6 4 10 4C14 4 16 6 18 10" stroke="#C4833A" strokeWidth="1.5" strokeLinecap="round" />
-            <path d="M4 13C6 9 7 7 10 7C13 7 14 9 16 13" stroke="#C4833A" strokeWidth="1.2" strokeLinecap="round" opacity="0.6" />
-            <path d="M6 15.5C7 12 8 10 10 10C12 10 13 12 14 15.5" stroke="#C4833A" strokeWidth="1" strokeLinecap="round" opacity="0.3" />
+            <path d="M2 10C4 6 6 4 10 4C14 4 16 6 18 10" stroke="#00E5FF" strokeWidth="1.5" strokeLinecap="round" />
+            <path d="M4 13C6 9 7 7 10 7C13 7 14 9 16 13" stroke="#7A5CFF" strokeWidth="1.2" strokeLinecap="round" opacity="0.6" />
+            <path d="M6 15.5C7 12 8 10 10 10C12 10 13 12 14 15.5" stroke="#FF3CAC" strokeWidth="1" strokeLinecap="round" opacity="0.3" />
           </svg>
-          <span className="font-heading font-bold text-sm tracking-[0.2em] text-primary">VAAYU</span>
+          <span className="font-heading font-bold text-sm tracking-[0.2em] text-[#00E5FF] glow-text-cyan">VAAYU</span>
         </a>
 
         {/* Desktop links */}
@@ -45,7 +45,7 @@ export default function Navbar() {
             <a
               key={l.href}
               href={l.href}
-              className="text-xs font-mono tracking-wider text-muted-foreground hover:text-primary transition-colors"
+              className="text-xs font-mono tracking-wider text-muted-foreground hover:text-[#00E5FF] transition-colors"
             >
               {l.label}
             </a>
@@ -57,22 +57,23 @@ export default function Navbar() {
           className="md:hidden flex flex-col gap-1 p-2"
           onClick={() => setMobileOpen(!mobileOpen)}
         >
-          <span className={`block w-5 h-0.5 bg-primary transition-all ${mobileOpen ? 'rotate-45 translate-y-1.5' : ''}`} />
-          <span className={`block w-5 h-0.5 bg-primary transition-all ${mobileOpen ? 'opacity-0' : ''}`} />
-          <span className={`block w-5 h-0.5 bg-primary transition-all ${mobileOpen ? '-rotate-45 -translate-y-1.5' : ''}`} />
+          <span className={`block w-5 h-0.5 bg-[#00E5FF] transition-all ${mobileOpen ? 'rotate-45 translate-y-1.5' : ''}`} />
+          <span className={`block w-5 h-0.5 bg-[#00E5FF] transition-all ${mobileOpen ? 'opacity-0' : ''}`} />
+          <span className={`block w-5 h-0.5 bg-[#00E5FF] transition-all ${mobileOpen ? '-rotate-45 -translate-y-1.5' : ''}`} />
         </button>
       </div>
 
       {/* Mobile menu */}
       {mobileOpen && (
-        <div className="md:hidden fixed inset-0 top-14 bg-background/95 backdrop-blur-md z-40">
+        <div className="md:hidden fixed inset-0 top-14 bg-black/80 backdrop-blur-xl z-40">
           <div className="flex flex-col items-center gap-8 pt-16">
             {NAV_LINKS.map(l => (
               <a
                 key={l.href}
                 href={l.href}
                 onClick={() => setMobileOpen(false)}
-                className="text-lg font-heading text-secondary-foreground hover:text-primary transition-colors"
+                className="text-lg font-heading text-secondary-foreground hover:text-[#7A5CFF] transition-colors"
+                style={{ textShadow: '0 0 10px rgba(122, 92, 255, 0.4)' }}
               >
                 {l.label}
               </a>

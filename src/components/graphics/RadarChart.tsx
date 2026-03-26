@@ -44,11 +44,12 @@ export default function RadarChart() {
           <button
             key={s}
             onClick={() => setActive(active === s ? null : s)}
-            className="px-3 py-1.5 rounded-full text-xs font-mono font-medium transition-all duration-300"
+            className="px-4 py-2 rounded-xl text-[10px] font-mono font-bold tracking-widest uppercase transition-all duration-300 border backdrop-blur-md"
             style={{
-              background: active === s ? RADAR_COLORS[s] : 'rgba(196,131,58,0.1)',
-              color: active === s ? '#0D0D14' : RADAR_COLORS[s],
-              border: `1px solid ${RADAR_COLORS[s]}40`,
+              background: active === s ? RADAR_COLORS[s] : 'rgba(255,255,255,0.03)',
+              color: active === s ? '#080810' : RADAR_COLORS[s],
+              borderColor: active === s ? RADAR_COLORS[s] : `${RADAR_COLORS[s]}30`,
+              boxShadow: active === s ? `0 0 15px ${RADAR_COLORS[s]}40` : 'none',
             }}
           >
             {s}
@@ -57,7 +58,7 @@ export default function RadarChart() {
       </div>
 
       <div className="relative" style={{ width: SIZE, height: SIZE }}>
-        <svg viewBox={`0 0 ${SIZE} ${SIZE}`} className="w-full h-full transition-transform duration-500 hover:rotate-3">
+        <svg viewBox={`0 0 ${SIZE} ${SIZE}`} className="w-full h-full transition-transform duration-700 hover:scale-[1.02]">
           {/* Grid levels */}
           {Array.from({ length: LEVELS }, (_, l) => {
             const lr = ((l + 1) / LEVELS) * R;
@@ -65,19 +66,19 @@ export default function RadarChart() {
               const { x, y } = polarToCart(axisAngle(i), lr);
               return `${x},${y}`;
             }).join(' ');
-            return <polygon key={l} points={pts} fill="none" stroke="rgba(196,131,58,0.1)" strokeWidth="0.5" />;
+            return <polygon key={l} points={pts} fill="none" stroke="rgba(0, 229, 255, 0.08)" strokeWidth="1" />;
           })}
 
           {/* Axes */}
           {RADAR_AXES.map((_, i) => {
             const { x, y } = polarToCart(axisAngle(i), R);
-            return <line key={i} x1={CX} y1={CY} x2={x} y2={y} stroke="rgba(196,131,58,0.15)" strokeWidth="0.5" />;
+            return <line key={i} x1={CX} y1={CY} x2={x} y2={y} stroke="rgba(0, 229, 255, 0.12)" strokeWidth="1" />;
           })}
 
           {/* Source polygons */}
           {sources.map(s => {
             const isActive = active === s;
-            const opacity = active === null ? 0.35 : isActive ? 0.8 : 0.08;
+            const opacity = active === null ? 0.25 : isActive ? 0.6 : 0.05;
             return (
               <polygon
                 key={s}
@@ -85,16 +86,16 @@ export default function RadarChart() {
                 fill={RADAR_COLORS[s]}
                 fillOpacity={opacity}
                 stroke={RADAR_COLORS[s]}
-                strokeWidth={isActive ? 2 : 0.5}
-                strokeOpacity={active === null ? 0.6 : isActive ? 1 : 0.1}
-                style={{ transition: 'all 0.6s ease' }}
+                strokeWidth={isActive ? 2.5 : 1}
+                strokeOpacity={active === null ? 0.4 : isActive ? 0.9 : 0.1}
+                style={{ transition: 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)' }}
               />
             );
           })}
 
           {/* Axis labels */}
           {RADAR_AXES.map((axis, i) => {
-            const { x, y } = polarToCart(axisAngle(i), R + 18);
+            const { x, y } = polarToCart(axisAngle(i), R + 22);
             return (
               <text
                 key={axis}
@@ -102,10 +103,12 @@ export default function RadarChart() {
                 y={y}
                 textAnchor="middle"
                 dominantBaseline="middle"
-                fill="#C8C8D8"
-                fontSize="11"
+                fill="#ffffff"
+                fillOpacity="0.5"
+                fontSize="10"
                 fontFamily="'JetBrains Mono'"
-                className="cursor-help"
+                fontWeight="700"
+                className="cursor-help uppercase tracking-widest"
                 onMouseEnter={() => setHoveredAxis(i)}
                 onMouseLeave={() => setHoveredAxis(null)}
               >
@@ -118,9 +121,9 @@ export default function RadarChart() {
         {/* Center label */}
         {active && (
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-            <div className="text-center">
-              <p className="text-xs font-heading font-bold" style={{ color: RADAR_COLORS[active] }}>{active}</p>
-              <p className="text-[10px] font-mono text-muted-foreground">91% confidence</p>
+            <div className="text-center bg-black/40 rounded-full p-6 backdrop-blur-sm border border-white/5">
+              <p className="text-[10px] font-mono font-bold tracking-widest uppercase mb-1" style={{ color: RADAR_COLORS[active] }}>{active}</p>
+              <p className="text-[9px] font-mono text-muted-foreground/60">SOURCE ATTRIBUTION: 91%</p>
             </div>
           </div>
         )}
@@ -128,11 +131,12 @@ export default function RadarChart() {
         {/* Axis tooltip */}
         {hoveredAxis !== null && (
           <div
-            className="absolute z-10 px-2 py-1 rounded text-[10px] font-mono bg-card-elevated text-secondary-foreground card-glow whitespace-nowrap"
+            className="absolute z-10 px-4 py-2 rounded-xl text-[10px] font-mono bg-black/90 text-white border border-white/10 backdrop-blur-xl shadow-2xl whitespace-nowrap"
             style={{
               left: '50%',
-              bottom: -8,
+              bottom: -20,
               transform: 'translateX(-50%)',
+              textShadow: '0 0 8px rgba(255,255,255,0.3)',
             }}
           >
             {axisDescriptions[RADAR_AXES[hoveredAxis]]}

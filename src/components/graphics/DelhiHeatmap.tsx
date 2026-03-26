@@ -80,9 +80,9 @@ export default function DelhiHeatmap() {
   return (
     <div className="relative">
       {/* LIVE badge */}
-      <div className="absolute top-2 right-2 flex items-center gap-1.5 bg-card-elevated/80 px-2.5 py-1 rounded-full text-xs font-mono z-10">
-        <span className="pulse-dot" style={{ width: 6, height: 6 }} />
-        <span className="text-status-good font-semibold">LIVE</span>
+      <div className="absolute top-2 right-2 flex items-center gap-1.5 bg-black/40 border border-[#39FF14]/20 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-mono z-10">
+        <span className="w-2 h-2 rounded-full bg-[#39FF14] animate-pulse shadow-[0_0_8px_rgba(57,255,20,0.6)]" />
+        <span className="text-[#39FF14] font-bold tracking-widest">LIVE</span>
       </div>
 
       <svg viewBox={`0 0 ${svgW} ${svgH}`} className="w-full max-w-[420px]">
@@ -90,6 +90,7 @@ export default function DelhiHeatmap() {
           const cx = getX(z.col, z.row);
           const cy = getY(z.row);
           const isAlert = z.id === alertZone;
+          const aqiColor = getAqiColor(z.aqi);
           return (
             <g
               key={z.id}
@@ -103,22 +104,22 @@ export default function DelhiHeatmap() {
               onMouseLeave={() => setHovered(null)}
             >
               {isAlert && (
-                <circle cx={cx} cy={cy} r={HEX_W / 2 + 6} fill="none" stroke="#D94F4F" strokeWidth="2" opacity="0.6">
+                <circle cx={cx} cy={cy} r={HEX_W / 2 + 6} fill="none" stroke="#FF5F3C" strokeWidth="2" opacity="0.6">
                   <animate attributeName="r" values={`${HEX_W / 2};${HEX_W / 2 + 12};${HEX_W / 2}`} dur="1.5s" repeatCount="indefinite" />
                   <animate attributeName="opacity" values="0.6;0;0.6" dur="1.5s" repeatCount="indefinite" />
                 </circle>
               )}
               <path
                 d={hexPath(cx, cy)}
-                fill={getAqiColor(z.aqi)}
-                fillOpacity={0.7}
-                stroke={getAqiColor(z.aqi)}
-                strokeWidth={hovered === z.id ? 2 : 0.5}
-                strokeOpacity={0.5}
+                fill={aqiColor}
+                fillOpacity={0.4}
+                stroke={aqiColor}
+                strokeWidth={hovered === z.id ? 2 : 1}
+                strokeOpacity={0.8}
                 style={{ transition: 'fill 0.8s ease, fill-opacity 0.3s' }}
                 className="cursor-pointer"
               />
-              <text x={cx} y={cy + 4} textAnchor="middle" fill="white" fontSize="9" fontFamily="'JetBrains Mono'" fontWeight="600">
+              <text x={cx} y={cy + 4} textAnchor="middle" fill="white" fontSize="10" fontFamily="'JetBrains Mono'" fontWeight="700" style={{ textShadow: '0 0 10px rgba(0,0,0,0.5)' }}>
                 {z.aqi}
               </text>
             </g>
@@ -133,20 +134,26 @@ export default function DelhiHeatmap() {
         const cy = getY(z.row);
         return (
           <div
-            className="absolute z-20 pointer-events-none card-glow rounded-lg p-3 min-w-[180px]"
+            className="absolute z-20 pointer-events-none neon-card rounded-xl p-4 min-w-[200px] backdrop-blur-xl"
             style={{
               left: `${(cx / svgW) * 100}%`,
               top: `${(cy / svgH) * 100 - 5}%`,
               transform: 'translate(-50%, -110%)',
-              background: '#22223A',
+              background: 'rgba(8, 8, 16, 0.9)',
+              border: `1px solid ${getAqiColor(z.aqi)}40`,
+              boxShadow: `0 10px 30px -10px rgba(0,0,0,0.5), 0 0 20px ${getAqiColor(z.aqi)}15`,
             }}
           >
-            <p className="text-sm font-heading font-bold text-foreground">{z.name}</p>
-            <p className="text-xs font-mono mt-1" style={{ color: getAqiColor(z.aqi) }}>AQI: {z.aqi}</p>
-            <p className="text-xs text-secondary-foreground mt-0.5">{z.sourceIcon} {z.source}</p>
-            <span className="inline-block mt-1.5 text-[10px] font-mono px-1.5 py-0.5 rounded bg-primary/20 text-primary-light">
-              Source: 91% confidence
-            </span>
+            <p className="text-sm font-heading font-bold text-white tracking-tight">{z.name}</p>
+            <p className="text-xs font-mono mt-1 font-bold" style={{ color: getAqiColor(z.aqi) }}>AQI: {z.aqi}</p>
+            <p className="text-[10px] text-muted-foreground mt-1 uppercase tracking-widest font-mono">
+              {z.sourceIcon} {z.source}
+            </p>
+            <div className="mt-2.5 pt-2 border-t border-white/5">
+              <span className="inline-block text-[10px] font-mono px-2 py-0.5 rounded-md bg-white/5 text-[#00E5FF] border border-[#00E5FF]/20">
+                Confidence: 91%
+              </span>
+            </div>
           </div>
         );
       })()}

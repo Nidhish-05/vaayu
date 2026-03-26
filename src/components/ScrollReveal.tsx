@@ -33,7 +33,7 @@ export function ScrollReveal({ children, className = '', delay = 0 }: { children
 
 export function SectionHeader({ label, className = '' }: { label: string; className?: string }) {
   return (
-    <span className={`text-xs font-mono font-bold tracking-[0.25em] uppercase ${className}`} style={{ color: '#F5C9A0' }}>
+    <span className={`text-xs font-mono font-bold tracking-[0.25em] uppercase glow-text-cyan ${className}`}>
       {label}
     </span>
   );

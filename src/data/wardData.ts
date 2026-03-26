@@ -29,10 +29,10 @@ export const WARD_DATA: WardData[] = [
 ];
 
 export function getAqiColor(aqi: number): string {
-  if (aqi < 100) return '#4CAF8C';
-  if (aqi < 200) return '#C4833A';
-  if (aqi < 300) return '#E07B3A';
-  return '#D94F4F';
+  if (aqi < 100) return '#39FF14'; // Toxic Green
+  if (aqi < 200) return '#00E5FF'; // Neon Cyan
+  if (aqi < 300) return '#7A5CFF'; // Electric Purple
+  return '#FF5F3C'; // Warning Red
 }
 
 export function getAqiLabel(aqi: number): string {
@@ -53,9 +53,9 @@ export const RADAR_DATA: Record<string, number[]> = {
 export const RADAR_AXES = ['PM2.5', 'PM10', 'NO₂', 'CO', 'SO₂'];
 
 export const RADAR_COLORS: Record<string, string> = {
-  'Biomass Burning': '#D94F4F',
-  'Construction Dust': '#E07B3A',
-  'Vehicular': '#7B68EE',
-  'Industrial': '#C4833A',
-  'Stubble Burning': '#F5C9A0',
+  'Biomass Burning': '#FF5F3C',
+  'Construction Dust': '#FF3CAC',
+  'Vehicular': '#00E5FF',
+  'Industrial': '#7A5CFF',
+  'Stubble Burning': '#39FF14',
 };

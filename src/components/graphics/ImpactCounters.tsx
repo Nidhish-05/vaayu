@@ -12,12 +12,12 @@ interface StatCard {
 }
 
 const STATS: StatCard[] = [
-  { value: 54000, suffix: '+', label: 'Annual Delhi deaths prevented', citation: 'Source: The Lancet, 2024', color: '#F5C9A0' },
-  { value: 272, label: 'Wards monitored', citation: 'Source: Delhi MCD Ward Data', color: '#E8A85C' },
-  { value: 15, prefix: '<', suffix: ' min', label: 'Spike to legal notice', citation: 'Source: Project Vaayu Architecture', color: '#4CAF8C' },
-  { value: 29, prefix: '₹', suffix: 'K/ward/yr', label: 'vs ₹3.5Cr CPCB station', citation: 'Source: CPCB Cost Analysis', color: '#C4833A' },
-  { value: 87, suffix: '%', label: 'ML attribution accuracy', citation: 'Source: IIT Indore, Nature 2024', color: '#7B68EE' },
-  { value: 120, prefix: '1/', suffix: 'th', label: 'Our cost vs CPCB', citation: 'Source: CPCB Budget Report', color: '#F5C9A0', display: '1/120th' },
+  { value: 54000, suffix: '+', label: 'Annual Delhi deaths prevented', citation: 'Source: The Lancet, 2024', color: '#FF5F3C' },
+  { value: 272, label: 'Wards monitored', citation: 'Source: Delhi MCD Ward Data', color: '#00E5FF' },
+  { value: 15, prefix: '<', suffix: ' min', label: 'Spike to legal notice', citation: 'Source: Project Vaayu Architecture', color: '#39FF14' },
+  { value: 29, prefix: '₹', suffix: 'K/ward/yr', label: 'vs ₹3.5Cr CPCB station', citation: 'Source: CPCB Cost Analysis', color: '#00E5FF' },
+  { value: 87, suffix: '%', label: 'ML attribution accuracy', citation: 'Source: IIT Indore, Nature 2024', color: '#7A5CFF' },
+  { value: 120, prefix: '1/', suffix: 'th', label: 'Our cost vs CPCB', citation: 'Source: CPCB Budget Report', color: '#00E5FF', display: '1/120th' },
 ];
 
 function Counter({ stat, inView }: { stat: StatCard; inView: boolean }) {
@@ -32,19 +32,21 @@ function Counter({ stat, inView }: { stat: StatCard; inView: boolean }) {
 
   return (
     <div
-      className="card-glow rounded-lg p-6 bg-card transition-all duration-200 hover:rotate-1 hover:scale-[1.02] will-change-transform"
+      className="neon-card rounded-[2rem] p-8 transition-all duration-300 hover:-translate-y-2 pulse-glow"
       style={{
-        animation: inView ? 'none' : undefined,
-        boxShadow: inView ? `0 0 30px ${stat.color}15` : undefined,
+        boxShadow: inView ? `0 0 40px ${stat.color}10` : undefined,
+        borderLeft: `4px solid ${stat.color}`,
       }}
     >
-      <p className="text-3xl md:text-4xl font-heading font-bold font-mono" style={{ color: stat.color }}>
+      <p className="text-4xl md:text-5xl font-heading font-bold font-mono tracking-tighter" style={{ color: stat.color, textShadow: `0 0 15px ${stat.color}40` }}>
         {display}
       </p>
-      <p className="text-sm text-secondary-foreground mt-2">{stat.label}</p>
-      <span className="inline-block mt-3 text-[9px] font-mono px-2 py-0.5 rounded bg-primary/10 text-muted-foreground">
-        {stat.citation}
-      </span>
+      <p className="text-sm font-heading font-semibold text-secondary-foreground/90 mt-3 tracking-tight">{stat.label}</p>
+      <div className="mt-6 pt-4 border-t border-white/5">
+        <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5 text-muted-foreground/60 border border-white/10 uppercase tracking-widest">
+          {stat.citation}
+        </span>
+      </div>
     </div>
   );
 }
